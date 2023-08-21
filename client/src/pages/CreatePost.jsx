@@ -26,6 +26,7 @@ const CreatePost = () => {
         const response = await fetch('http://localhost:8000/api/v1/post', {
           method: 'POST',
           headers: {
+
             'Content-Type': "application/json"
           },
           body: JSON.stringify(form)
@@ -64,8 +65,6 @@ const CreatePost = () => {
             'Content-Type': 'application/json'
           }
         })
-        const photoRes = await axios.get(res.data.photo)
-        console.log(photoRes.data);
         if (res.status === 200) {
           setForm({ ...form, photo: res.data.photo })
         }

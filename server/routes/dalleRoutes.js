@@ -23,33 +23,50 @@ router.route('/').get((req, res) => {
 router.route('/').post(async (req, res) => {
     try {
         const { prompt } = req.body;
-        const encodedParams = new URLSearchParams();
-        encodedParams.set('text', prompt);
+        // const encodedParams = new URLSearchParams();
+        // encodedParams.set('text', prompt);
 
         const options = {
             method: 'POST',
-            url: 'https://open-ai21.p.rapidapi.com/texttoimage2',
+            url: 'https://texttoimage.p.rapidapi.com/image',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded',
+                'content-type': 'application/json',
                 'X-RapidAPI-Key': 'd1d96b2941mshe5211115797318dp1131e9jsn08cee67d088e',
-                'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+                'X-RapidAPI-Host': 'texttoimage.p.rapidapi.com'
             },
-            data: encodedParams,
+            data: {
+                search_text: prompt,
+                num_images: 5,
+                pro_blog: true
+            }
         };
+
+        // const options = {
+        //     method: 'POST',
+        //     url: 'https://open-ai21.p.rapidapi.com/texttoimage2',
+        //     headers: {
+        //         'content-type': 'application/x-www-form-urlencoded',
+        //         'X-RapidAPI-Key': 'd1d96b2941mshe5211115797318dp1131e9jsn08cee67d088e',
+        //         'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+        //     },
+        //     data: encodedParams,
+        // };
 
         const response = await axios.request(options);
         console.log(response.data);
-        console.log(response.data.url);
-        const image = response.data.url
-        let waitTime;
-        if (response.data.url.ETA) {
-            waitTime = Number(res.data.ETA.substring(0, 2))
-        } else {
-            waitTime = 15000;
-        }
-        setTimeout(() => {
-            res.status(200).json({ photo: image })
-        }, waitTime)
+        const image = response.data.body.images.filter((item) => item.mime === 'image/jpeg')
+        console.log(image);
+        res.status(200).json({ photo: image[0].link })
+        console.log(image[0].link);
+        // let waitTime;
+        // if (response.data.url.ETA) {
+        //     waitTime = Number(res.data.ETA.substring(0, 2))
+        // } else {
+        //     waitTime = 15000;
+        // }
+        // setTimeout(() => {
+        //     res.status(200).json({ photo: image })
+        // }, waitTime)
 
 
         // const { prompt } = req.body;
