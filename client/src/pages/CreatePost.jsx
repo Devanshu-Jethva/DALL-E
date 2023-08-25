@@ -23,7 +23,7 @@ const CreatePost = () => {
       setLoading(true)
 
       try {
-        const response = await fetch('http://localhost:8000/api/v1/post', {
+        const response = await fetch('https://dall-e-clone-aqg6.onrender.com/api/v1/post', {
           method: 'POST',
           headers: {
 
@@ -57,7 +57,7 @@ const CreatePost = () => {
     if (form.prompt) {
       try {
         setGeneratingImg(true);
-        const res = await axios.post('http://localhost:8000/api/v1/dalle', {
+        const res = await axios.post('https://dall-e-clone-aqg6.onrender.com/api/v1/dalle', {
           prompt: form.prompt
         }, {
           headers: {
@@ -78,13 +78,6 @@ const CreatePost = () => {
       alert('Please enter a prompt')
     }
   }
-
-  useEffect(() => {
-
-  }, [form.photo])
-
-
-
 
   return (
     <section className='max-w-7xl mx-auto'>
